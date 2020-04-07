@@ -1,6 +1,6 @@
 #!/bin/bash
 
-READLINK=readlik
+READLINK=readlink
 if [ "$(uname -s)" = "Darwin" ]
 then
 	READLINK=greadlink
@@ -8,7 +8,7 @@ fi
 
 if ! type -P $READLINK > /dev/null
 then
-	echo "Missing `$READLINK`. On MacOS run `brew install coreutils`" >&2
+	echo "Missing '$READLINK'. On MacOS run 'brew install coreutils'" >&2
 	exit 1
 fi
 
@@ -195,30 +195,30 @@ buildinstall() {
 		if [ -f Makefile ] && ! [[ $app =~  ^zlib ]] && ! [[ $app =~ ^openssl ]]
 		then
 			warn "Detected active project for '$app', will not rebuild"
-			warn "If you to rebuild '$app' run 'rm -rf $dir' first"
+			warn "If you want to rebuild '$app' run 'rm -rf $dir' first"
 		else
 			## Make sure local include is used
 			mkdir -p $PREFIX/include
 			mkdir -p $PREFIX/lib{,64}
 			export CPPFLAGS="$CFLAGS_OPT"
 
-			cmd="env LDFLAGS=\"$LDFLAGS_OPT\" ./configure --prefix=$PREFIX && make && make install"
+			cmd="(test -f Makefile || env LDFLAGS=\"$LDFLAGS_OPT\" ./configure --prefix=$PREFIX) && make && make install"
 			# cmd="./configure --prefix=$PREFIX && env LDFLAGS=\"$LDFLAGS_OPT\" make && make install"
 
 			case $app in
 			pip*)
-				cmd="$CUSTOM_PYTHON get-pip.py"
+				cmd="env LD_LIBRARY_PATH=\"$PREFIX/lib64\" $CUSTOM_PYTHON get-pip.py"
 				;;
 			pkg-config*)
 				cmd="env LDFLAGS=\"$LDFLAGS_OPT\" ./configure --prefix=$PREFIX --with-internal-glib"
 				cmd="$cmd && make && make install"
 				;;
 			glib*)
-				cmd="env LDFLAGS=\"$LDFLAGS_OPT\"  ./configure --prefix=$PREFIX --with-libpng=$PREFIX/lib --disable-man"
+				cmd="(test -f Makefile || env LDFLAGS=\"$LDFLAGS_OPT\"  ./configure --prefix=$PREFIX --with-libpng=$PREFIX/lib --disable-man)"
 				cmd="$cmd && make && make install"
 				;;
 			Python*)
-				cmd="env LDFLAGS=\"$LDFLAGS_OPT\" ./configure --prefix=$PREFIX --enable-shared"
+				cmd="(test -f Makefile || env LDFLAGS=\"$LDFLAGS_OPT\" ./configure --prefix=$PREFIX --enable-shared)"
 				cmd="$cmd && make && make install"
 				;;
 			py2cairo*|pycairo*)
@@ -245,11 +245,11 @@ buildinstall() {
 				cmd="$cmd && make && make install"
 				;;
 			apr-util*)
-				cmd="env LDFLAGS=\"$LDFLAGS_OPT\"  ./configure --prefix=$PREFIX --with-apr=$PREFIX"
+				cmd="(test -f Makefile || env LDFLAGS=\"$LDFLAGS_OPT\"  ./configure --prefix=$PREFIX --with-apr=$PREFIX)"
 				cmd="$cmd && make && make install"
 				;;
 			httpd*)
-				cmd="env LDFLAGS=\"$LDFLAGS_OPT\"  ./configure --prefix=$PREFIX/apache --with-apr=$PREFIX --with-apr-util=$PREFIX"
+				cmd="(test -f Makefile || env LDFLAGS=\"$LDFLAGS_OPT\"  ./configure --prefix=$PREFIX/apache --with-apr=$PREFIX --with-apr-util=$PREFIX)"
 				cmd="$cmd && make && make install"
 				;;
 			esac
