@@ -56,7 +56,7 @@ pkg-config;0.27.1;http://pkgconfig.freedesktop.org/releases/pkg-config-0.27.1.ta
 glib;2.40.0;http://ftp.gnome.org/pub/gnome/sources/glib/2.40/glib-2.40.0.tar.xz
 cairo;1.12.16;http://cairographics.org/releases/cairo-1.12.16.tar.xz
 py2cairo;1.10.0;http://cairographics.org/releases/py2cairo-1.10.0.tar.bz2
-django-tagging;0.3.1;https://django-tagging.googlecode.com/files/django-tagging-0.3.1.tar.gz
+django-tagging;0.3.1;https://files.pythonhosted.org/packages/cc/ba/282231c42a36a0ca92618a636edd05909bb49985ac6a625a16e95835e035/django-tagging-0.3.1.tar.gz
 Django;1.6.5;http://www.djangoproject.com/m/releases/1.6/Django-1.6.5.tar.gz
 zope.interface;4.1.1;https://pypi.python.org/packages/source/z/zope.interface/zope.interface-4.1.1.tar.gz#md5=edcd5f719c5eb2e18894c4d06e29b6c6;zope.interface-4.1.1.tar.gz
 ## Griphite
@@ -65,10 +65,10 @@ whisper;0.9.10;https://launchpad.net/graphite/0.9/0.9.10/+download/whisper-0.9.1
 Twisted;14.0.0;https://pypi.python.org/packages/source/T/Twisted/Twisted-14.0.0.tar.bz2
 graphite-web;0.9.10;https://launchpad.net/graphite/0.9/0.9.10/+download/graphite-web-0.9.10.tar.gz
 ## Apache
-apr;1.5.1;http://download.nextag.com/apache/apr/apr-1.5.1.tar.bz2
-apr-util;1.5.3;http://download.nextag.com/apache/apr/apr-util-1.5.3.tar.bz2
+apr;1.5.1;https://archive.apache.org/dist/apr/apr-1.5.1.tar.bz2
+apr-util;1.5.3;https://archive.apache.org/dist/apr/apr-util-1.5.3.tar.bz2
 pcre;8.35;http://sourceforge.net/projects/pcre/files/pcre/8.35/pcre-8.35.tar.bz2
-httpd;2.4.10;http://supergsego.com/apache/httpd/httpd-2.4.10.tar.bz2
+httpd;2.4.10;https://archive.apache.org/dist/httpd/httpd-2.4.10.tar.bz2
 __
 )
 
@@ -294,8 +294,6 @@ do
 	then
 		error "Failed to fetch $application-$version from $url"
 	fi
-
-	continue
 
 	# 2. Unpack into working space
 	unarchive "$application" "$version" "$arch" "$WORKING_DIR"
